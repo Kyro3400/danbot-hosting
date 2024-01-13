@@ -21,24 +21,24 @@ class DanBot {
     if (!key) throw new Error('"key" is missing or undefined');
     if (typeof key !== "string")
       throw new TypeError('"key" is not typeof string');
-    if (!key.startsWith("danbot-"))
+    /*if (!key.startsWith("danbot-"))
       throw new Error(
         '"key" is not prefixed by "danbot-", please follow the key format'
-      );
+      );*/
     // Client error handling
     if (!client) throw new Error('"client" is missing or undefined');
    /* if (!(client instanceof this.discord.Client))
       throw new TypeError('"client" is not a discord.js client'); */
 
     // API config
-    this.baseApiUrl = "https://danbot.host/api";
+    this.baseApiUrl = "https://bot-api.danbot.host/api";
     this.key = key;
     this.client = client;
 
     // General config
-    this.v11 = this.discord.version <= "13.0.0";
-    this.v12 = this.discord.version <= "13.0.0";
-    this.v13 = this.discord.version >= "13.0.0";
+    this.v12 = this.discord.version <= "14.0.0";
+    this.v13 = this.discord.version >= "14.0.0";
+    this.v14 = this.discord.version >= "14.0.0";
     this.activeUsers = [];
     this.commandsRun = 0;
 
@@ -64,13 +64,13 @@ class DanBot {
     let user_count = 0;
 
     // v13 code
-    if (this.v13) {
+    if (this.v14) {
       guild_count = this.client.guilds.cache.size;
       user_count = this.client.users.cache.size;
-    } else (this.v12) {
+    } else (this.v13) {
       guild_count = this.client.guilds.cache.size;
       user_count = this.client.users.cache.size;
-    } else if (this.v11) {
+    } else if (this.v12) {
       // V11 code
       guild_count = this.client.guilds.size;
       user_count = this.client.users.size;
@@ -194,6 +194,22 @@ class DanBot {
   }
 }
 
+// V14 sharding gets
+async function getGuildCountV14(client) {
+  return (await client.shard.fetchClientValues("guilds.cache.size")).reduce(
+    (prev, current) => prev + current,
+    0
+  );
+}
+
+async function getUserCountV14(client) {
+  return (await client.shard.fetchClientValues("users.cache.size")).reduce(
+    (prev, current) => prev + current,
+    0
+  );
+}
+// end
+
 // V13 sharding gets
 async function getGuildCountV13(client) {
   return (await client.shard.fetchClientValues("guilds.cache.size")).reduce(
@@ -210,31 +226,15 @@ async function getUserCountV13(client) {
 }
 // end
 
-// V12 sharding gets
+// v12 sharding gets
 async function getGuildCountV12(client) {
-  return (await client.shard.fetchClientValues("guilds.cache.size")).reduce(
-    (prev, current) => prev + current,
-    0
-  );
-}
-
-async function getUserCountV12(client) {
-  return (await client.shard.fetchClientValues("users.cache.size")).reduce(
-    (prev, current) => prev + current,
-    0
-  );
-}
-// end
-
-// v11 sharding gets
-async function getGuildCountV11(client) {
   return (await client.shard.fetchClientValues("guilds.size")).reduce(
     (prev, current) => prev + current,
     0
   );
 }
 
-async function getUserCountV11(client) {
+async function getUserCountV12(client) {
   return (await client.shard.fetchClientValues("users.size")).reduce(
     (prev, current) => prev + current,
     0
