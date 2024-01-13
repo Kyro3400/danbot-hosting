@@ -31,7 +31,7 @@ class DanBot {
       throw new TypeError('"client" is not a discord.js client'); */
 
     // API config
-    this.baseApiUrl = "https://bot-api.danbot.host/api";
+    this.baseApiUrl = "https://bot-api.danbot.host";
     this.key = key;
     this.client = client;
 
@@ -92,7 +92,7 @@ class DanBot {
 
     // Create post request
     let response = await fetch(
-      this.baseApiUrl + `/bot/${this.client.user.id}/stats`,
+      this.baseApiUrl + `/addbot??apikey=${api_key}&discordid=${bot_id}&ownerid=${owner_id}&name=${client.user.username}&avatar=${bot_avatar}&guilds=${client.guilds.cache.size}&users=${client.users.cache.size}&shards=0`,
       {
         method: "post",
         body: JSON.stringify(requestBody),
@@ -155,7 +155,7 @@ class DanBot {
   async botInfo() {
     // Create post request
     let response = await fetch(
-      this.baseApiUrl + `/bot/${this.client.user.id}/info`,
+      this.baseApiUrl + `/bot?discordid=${bot_id}&userid=${owner_id}`,
       {
         method: "get",
         headers: {
