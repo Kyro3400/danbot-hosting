@@ -37,7 +37,7 @@ class DanBot {
 
     // General config
     this.v12 = this.discord.version <= "14.0.0";
-    this.v13 = this.discord.version >= "14.0.0";
+    this.v13 = this.discord.version <= "14.0.0";
     this.v14 = this.discord.version >= "14.0.0";
     this.activeUsers = [];
     this.commandsRun = 0;
@@ -67,7 +67,7 @@ class DanBot {
     if (this.v14) {
       guild_count = this.client.guilds.cache.size;
       user_count = this.client.users.cache.size;
-    } else (this.v13) {
+    } else if (this.v13) {
       guild_count = this.client.guilds.cache.size;
       user_count = this.client.users.cache.size;
     } else if (this.v12) {
