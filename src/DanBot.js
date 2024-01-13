@@ -81,7 +81,9 @@ class DanBot {
       key: this.key, // API key
       servers: guild_count.toString(), // Server count
       users: user_count.toString(), // User count
-      clientInfo: this.client.user
+      clientInfo: this.client.user,
+      owner_id: "856176853719187506",
+      bot_avatar: "https://cdn.discordapp.com/avatars/903067522939646024/a5aa11bc81039b17ed13aeb78d0f9c6c.png"
       //   active: this.activeUsers.length.toString(), // Users that have run commands since the last post
       //  commands: this.commandsRun.toString(), // The how many commands have been run total
     };
@@ -92,7 +94,7 @@ class DanBot {
 
     // Create post request
     let response = await fetch(
-      this.baseApiUrl + `/addbot??apikey=${api_key}&discordid=${bot_id}&ownerid=${owner_id}&name=${client.user.username}&avatar=${bot_avatar}&guilds=${client.guilds.cache.size}&users=${client.users.cache.size}&shards=0`,
+      this.baseApiUrl + `/addbot?apikey=${key}&discordid=${id}&ownerid=${owner_id}&name=${client.user.username}&avatar=${bot_avatar}&guilds=${client.guilds.cache.size}&users=${client.users.cache.size}&shards=0`,
       {
         method: "post",
         body: JSON.stringify(requestBody),
@@ -155,7 +157,7 @@ class DanBot {
   async botInfo() {
     // Create post request
     let response = await fetch(
-      this.baseApiUrl + `/bot?discordid=${bot_id}&userid=${owner_id}`,
+      this.baseApiUrl + `/bot?apikey=${key}&discordid=${bot_id}&userid=${owner_id}`,
       {
         method: "get",
         headers: {
